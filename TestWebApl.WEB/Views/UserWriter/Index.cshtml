@@ -1,0 +1,36 @@
+﻿@model PagedList.IPagedList<TestWebApl.BLL.DTO.WriterView>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout3.cshtml";
+}
+
+<h2>Index</h2>
+
+@foreach (var item in Model)
+{
+    <div class="well">
+        @if (item.ImageMimeType != null)
+        {
+            <img class="img-thumbnail" width="75" height="75"
+                 src="@Url.Action("GetImage", "UserWriter",
+                new { item.id })" />
+        }
+        <h3>
+            <strong>@item.Name @item.Surname</strong>
+            
+        </h3>
+        <span class="lead">@item.Biografy</span>
+        <h4>@Html.ActionLink("Details", "Details", new { item.id})</h4>
+    </div>
+
+
+
+
+}
+<br />
+
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchString = @ViewData["CurrentSearch"], sortOrder = @ViewData["SortName"] }))

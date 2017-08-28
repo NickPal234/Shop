@@ -1,0 +1,84 @@
+﻿@model TestWebApl.BLL.DTO.MagazineView
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Magazine", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>MagazineView</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberIssue, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberIssue, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberIssue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label>File</label>
+            <input type="file" name="File" /><br>
+
+        </div>
+
+
+          <div class="editor-field"> 
+                <table style="width: 100%"> 
+                    <tr> 
+                        @{ 
+                            int cnt = 0;
+                            List<TestWebApl.WEB.Models.Assosiat<TestWebApl.BLL.DTO.ArticleView>> article = ViewBag.AllArticle;
+                            foreach (var course in article)
+                            { 
+                                if (cnt++ % 3 == 0) { 
+                                    @:  </tr> <tr>  
+                                } 
+                                @: <td>  
+                                    <input type="checkbox"  
+                                           name="selected"  
+                                           value="@course.ID"  
+                                           @(Html.Raw(course.Assigned ? "checked=\"checked\"" : "")) />  
+                                    @course.ID @:&nbsp; @course.Name 
+                                @:</td> 
+                            } 
+                            @: </tr> 
+                        } 
+                </table> 
+           </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

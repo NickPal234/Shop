@@ -1,0 +1,78 @@
+﻿@model TestWebApl.BLL.DTO.WriterView
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout3.cshtml";
+}
+
+
+
+<div>
+   <h2>@Html.DisplayFor(model => model.Name) @Html.DisplayFor(model => model.Surname)</h2> 
+    @if (Model.ImageMimeType != null)
+    {
+        <img class="image-Writer" width="200" height="300"
+             src="@Url.Action("GetImage", "UserWriter",
+                new { Model.id })" />
+    }
+    <div id="rightdiv">
+        <dl class="dl-horizontal">
+
+
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.BornYear)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BornYear)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayName("Book")
+            </dt>
+
+            <dd>
+                @foreach (TestWebApl.BLL.DTO.BookView b in Model.Books)
+                {
+                    <p>@Html.RouteLink(b.Name, new { controller = "UserBook", action = "Details", id = b.Id }) </p>
+
+
+                }
+            </dd>
+
+
+
+
+
+           
+
+        </dl>
+    </div>
+    <h3>
+        @Html.DisplayNameFor(model => model.Biografy)
+    </h3>
+
+    <p>
+        @Html.DisplayFor(model => model.Biografy)
+    </p>
+</div>

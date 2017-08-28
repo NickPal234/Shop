@@ -1,0 +1,46 @@
+﻿@model PagedList.IPagedList<TestWebApl.BLL.DTO.BookView>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Insex";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Insex</h2>
+
+@foreach (var item in Model)
+{
+    <div class="well">
+        @if (item.ImageMimeType != null)
+        {
+            <img class="img-thumbnail" width="75" height="75"
+                 src="@Url.Action("GetImage", "UserBook",
+                new { item.Id })" />
+        }
+        <h3>
+            <strong>@item.Name</strong>
+           
+            <span class="pull-right label label-primary">@item.Price.ToString("# руб")</span>
+        </h3>
+        <h4>@Html.ActionLink("Details", "Details", new { item.Id })</h4>
+
+        @using (Html.BeginForm("AddToCart", "Cart", new { bookId = item.Id, requests = Request.Url.PathAndQuery }))
+        {
+            <div class="pull-right">
+                
+                <input type="submit" class="btn btn-success" value="Добавить в корзину" />
+            </div>
+        }
+        <span class="lead">@item.Description</span>
+
+    </div>
+
+  
+       
+   
+}
+<br />
+
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",  new { page, searchString = @ViewData["CurrentSearch"], sortOrder = @ViewData["SortName"] }))
